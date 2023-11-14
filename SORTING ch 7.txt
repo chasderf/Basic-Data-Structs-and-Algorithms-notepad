@@ -1,0 +1,95 @@
+SORTING
+
+In this chapter we discuss the problem of sorting an array of elements. Most of the time our array contains only integers, although, obviously, more complicated structures are possible. For most of this chapter, we will also assume that the entire sort can be done in main memory, so that the number of elements is relatively small (less than a million).
+Sorts that cannot be performed in main memory and must be done on disk or tape are also quite important. This type of sorting, known as external sorting, will
+be discussed at the end of the chapter. 
+
+
+-There are several easy algorithms to sort in O(n^2) such as insertion sort
+
+- There is an algorithm, shellsort, that is very simple to code, runs in O(n^2) and is efficient in practice
+
+-There are slightly more complicated O(n log n) sorting algorithms
+
+-Any general purpose sorting algorithm requires (n log n) comparisons
+
+The algorithms we describe will all be exchangeable. Each will be passed an array containing the elements and an integer containing the number of elements. 
+
+One of the simplest sorting algorithms is the insertion sort. Insertion sort consists of n - 1 passes. For pass p = 2 through n, insertion sort ensures that the elements in positions 1 through p are in sorted order. Insertion sort makes use of the fact that elements in positions 1 through p - 1 are already known to be in sorted order. 
+
+Because of the nested loops, each of which can take n iterations, insertion sort is O(n^2).
+
+On the other hand, if the input is presorted, the running time is O(n), because the test in the inner for loop always fails immediately.
+
+7.3 A lower bound for simple sorting algorithms 
+
+An inversion in an array of numbers is any ordered pair (i, j) having the property that i < j but a[i] > a[j] .
+
+Shellsort
+
+Shellsort named after its inventor, DONALD SHELL, was one of the first algorithms to break the quadratic time barrier although it was not until several years after its initial discovery that a subquadratic time bound was proven. It works by comparing elements that are the distant; the distance between comparisons decreases as the algorithm runs until the last phase in which adjacent elements are compared. For this reason shellsort is sometimes refered to as diminishing increment sort.
+
+7.4.1 Worst case analysis of shellsort
+
+although shellsort is simple to code, the anlysis of its running time is quite another story. The running time of shellsort depends on the choice of increment sequence, and the proofs can be rather involved. The average case analysis of shellsort is a long standing open problem, except for the most trivial increment sequences.
+
+7.5 Heapsort
+
+As mentioned in chapter 6 priority queues can be used to sort in O(n log n) time. The algorithm based on this idea is known as heapsort and gives the best Big-Oh running time we have seen so far. In practice however it is slower than a version of shellsort that uses sedgewicks increment sequence.
+
+
+The main problem with this algorithm is that it uses an extra array. Thus, the memory requirement is doubled. This could be a problem in some instances. Notice that the extra time spent copying the second array back to the first is only O(n), so that this is not likely to affect the running time significantly. The problem is space. 
+
+
+7.6 Mergesort
+
+Now we focus in on mergesort. Mergesort runs in O(n log n) worst-case running time, and the number of comparisons used is nearly optimal. It is a fine example of a recursive algorithm.
+
+
+The fundamental operation in this algorthm is merging two sorted lists. Because the lists are sorted, this can be done in one pass thorugh the input, if the output is put in a third list. The basic merging algorithm takes two input arrays a and b, an output array c, and three counters aptr, bptr, and cptr, which are initially set to the beginning of their respective arrays. The smaller of a[aptr] and b[bptr] is copied to the next entry in c, and the appropriate counters are advanced. When either input list is exhausted the remainder of the other lists is copied to c. 
+
+
+7.7 Quicksort
+
+As the name implies, quicksort is the fastest known sorting algorithm in practice. Its average running time is O(n log n). It is very fast, mainly due to a very tight and highly optimized innner loop. It has 
+O(n^2) worst case performance but this can be made exponentially unlikely with a little effort. The quicksort algorithm is simple to understand and prove correct, although for many years it had the reputation of being an algorithm that could in theory be highly optimized but in practice was impossible to code correctly (no doubt
+because of FORTRAN). Like mergesort, quicksort is a divide-and-conquer
+recursive algorithm. The basic algorithm to sort an array S consists of the following four easy steps:
+
+1. If the number of elements in S is 0 or 1, then return
+
+2. Pick any element v in S. This is called the pivot
+
+3. Partition S - {v} (the remaining elements in S) into two disjoint groups: S1 = {x S - {v} | x v}, and S2 = {x S -{v} / x v}
+
+4. Return { quicksort (S1) followed by v followed by quicksort(S2)}
+
+7.7.1 Picking the Pivot
+
+Although the algorithm as described works no matter which element is chosen as pivot, some choices are obviously better than others
+
+A Wrong Way
+
+A Safe Maneuver
+
+Median-of-Three Partitioning
+
+A Wrong Way
+The popular, uninformed choice is to use the first element as the pivot. This is acceptable if the input is random, but if the input is presorted or in reverse order, then the pivot provides a poor partition, because virtually all the elements go into S 1 or S 2. Worse, this happens consistently throughout the recursive calls. The practical effect is that if the first element is used as the pivot and the input is presorted, then quicksort will take quadratic time to do
+essentially nothing at all, which is quite embarrassing. Moreover, presorted input (or input with a large presorted section) is quite frequent, so using the first element as pivot is an absolutely horrible idea and should be discarded immediately. An alternative is choosing the larger of the first two distinct keys as pivot, but this has the same bad properties as merely choosing the first key.
+Do not use that pivoting strategy either. 
+
+A Safe Maneuver
+A safe course is merely to choose the pivot randomly. This strategy is generally perfectly safe, unless the random number generator has a flaw (which is not as uncommon as you might think), since it is very unlikely that a random pivot would consistently provide a poor partition. On the other hand, random number generation is generally an expensive commodity and does not reduce the average running time of the rest of the algorithm at all. 
+
+Median-of-Three Partitioning 
+The median of a group of n numbers is the n/2 th largest number. The best choice of pivot would be the median of the file. Unfortunately, this is hard to calculate and would slow down quicksort considerably. A good estimate can be obtained by picking three elements randomly and using the median of these three
+as pivot. The randomness turns out not to help much, so the common course is to use as pivot the median of the left, right and center elements.
+
+7.7.3. Small Files
+For very small files (n 20), quicksort does not perform as well as insertion sort. Furthermore, because quicksort is recursive, these cases will occur frequently. A common solution is not to use quicksort recursively for small files, but instead use a sorting algorithm that is efficient for small files, such as insertion sort. An even better idea is to leave the file slightly unsorted and finish up with insertion sort. This works well, because insertion sort is efficient for nearly sorted files. Using this strategy can actually save about 15 percent in the running time (over doing no cutoff at all). A good cutoff
+range is n = 10, although any cutoff between 5 and 20 is likely to produce similar results. This also saves nasty degenerate cases, such as taking the median of three elements when there are only one or two. Of course, if there is a bug in the basic quicksort routine, then the insertion sort will be very, very slow.
+
+7.8. Sorting Large Structures
+Throughout our discussion of sorting, we have assumed that the elements to be sorted are simply integers. Frequently, we need to sort large structures by a certain key. For instance, we might have payroll records, with each record consisting of a name, address, phone number, financial information such as salary, and tax information. We might want to sort this information by one particular field, such as the name. For all of our algorithms, the fundamental operation is the swap, but here swapping two structures can be a very expensive operation, because the structures are potentially large. If this is the case, a practical solution is to have the input array contain pointers to the structures.
+We sort by comparing the keys the pointers point to, swapping pointers when necessary. This means that all the data movement is essentially the same as if we were sorting integers. This is known as indirect sorting; we can use this technique for most of the data structures we have described. This justifies our assumption that complex structures can be handled without tremendous loss efficiency. 

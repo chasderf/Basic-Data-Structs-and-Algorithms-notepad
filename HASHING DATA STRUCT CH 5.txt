@@ -1,0 +1,35 @@
+HASHING
+
+Last chapter in chapter 4 we talked about the search tree ADT, which allowed various operations on a set of elements. So in this chapter we will discuss the hash table ADT, which supports only a subset of the operations allowed by binary search trees.
+
+Hashing is a technique used for performing insertions, deletions and finds in constant average time. Tree operations that require any ordering information among the elements are not supported efficiently. Thus operations such as find_min; find_max and the printing of the entire table in sorted order in linear time are not supported
+
+So the central data structure of this chapter is called the hash table:
+
+-See several methods of implementing the hash table
+
+-Compare these methods analytically
+
+-Show numerous applications of hashing
+
+-Compare hash tables with binary search trees.
+
+Basically the most ideal hash table data structure is simply an array of some fixed size, containing the keys. Typically, a key is a string with an associated value (for instance, salary information). We will refer to the table size as H_SIZE. with an understanding that this is part of a hash data structure and not merely some variable floating around globally.
+
+Closed hashing (open addressing)
+Open hashing has the disadvantage of requiring pointers. This tends to slow the algorithm down a bit because of the time required to allocate new cells, and also essentially requires the implementation of a second data structure. Closed hashing, also known as open addressing, is an
+alternative to resolving collisions with linked lists. In a closed hashing system, if a collision occurs, alternate cells are tried until an empty cell is found. More formally, cells h0(x), h1
+
+Theres linear and quadratic probing at page 173 and 172
+
+Double hashing
+
+The last collision resolution procedure we will look at is double hasing. For double hashing, one popular choice is f(i) = i h2(x). this formula says that we apply a second hash function to x and probe at a distance h2(x), 2h2(x)... and so on. A poor choice of h2(x) would be disastrous. 
+
+Rehashing 
+If the table gets too full then the running time for the operations will take too long and inserts might fail for closed hashing with quadratic resolution. This can happen if there are too many deletions intermixed with insertions. A solution is to build another table that is twice as big (associated with a new hash function) and scan down the entire original hash table, computing the new hash value for each (non-deleted) element and inserting it in the new table.
+
+Extendible Hashing
+
+The final topic in this chapter deals with the case where the amoutn of data is too large to fit in main memory. As we saw with trees in chapter 4, the main consideration then is the number of disk accesses required to retrieve data. 
+As before, we assume that any point we have n records to store: the value of n changes over time. More so at most m records fit in one disk block. 

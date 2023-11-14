@@ -1,0 +1,80 @@
+CHAPTER 10:
+ALGORITHM DESIGN TECHNIQUES
+
+So far, we have been concerned with the efficient implementation of algorithms. We have seen that when an algorithm is given, the actual data structures need not be specified. It is up to the programmer to choose the approriate data structure in order to make the running time as small as possible.
+
+In this chapter, we switch our attention from the implementation of algorithms to the design of algorithms. Most of the algorithms that we have seen so far are straightforward and simple. Chapter 9 contains some algorithms that are much more subtle, and some require an argument (in some cases lengthy) to show that they are indeed correct. In this chapter, we will focus on five of the common types of algorithms used to solve problems. For many problems, it is quite likely that at least one of these methods will work. 
+
+- See the general approach
+
+- Look at several examples (the exercises at the end of the chapteer provide many more examples)
+
+-Discuss in general terms, the time and space complexity, where appropriate
+
+10.1 Greedy algorithms
+
+The first type of algorithm we will examine is the greedy algorithm. We have already seen three greedy algorithms in chapter 9: Dijkstra's, Prim's and Kruskal's algorithm. Greedy algorithms work in phases. In each phase, a decision is made that appears to be good, without regard for future consequences. Generally, this means that some local optimum is chosen. This "take what you can get now" strategy is the source of the name for this class of algorithms. When the algorithm terminates, we hope that the local optimum is equal to the global optimum. If this is the case, then the algorithm is correct; otherwise, the algorithm has produced a suboptimal solution. If the absolute best answer is not
+required, then simple greedy algorithms are sometimes used to generate
+approximate answers, rather than using the more complicated algorithms generally required to generate an exact answer.
+
+There are a lot of real life examples of greedy algorithms. An obvious one is the coin changing problem. To make change in U.S. currency, we repeatedly dispense the largest denomination. Thus, to give out seventeen dollars and sixtyone cents in change, we give out a ten-dollar bill, a five-dollar bill, two onedollar bills, two quarters, one dime, and one penny. By doing this, we are guaranteed to minimize the number of bills and coins. This algorithm does not work in all monetary systems, but fortunately, we can prove that it does work in
+the American monetary system. Indeed, it works even if two-dollar bills and fifty-cent pieces are allowed.
+
+Traffic problems provide an example where making locally optimal choices does not always work. For example, during certain rush hour times in Miami, it is best to stay off the prime streets even if they look empty, because traffic will come to a standstill a mile down the road, and you will be stuck. Even more shocking, it is better in some cases to make a temporary detour in the direction opposite your destination in order to avoid all traffic bottlenecks. 
+
+Huffman's Algorithm
+Throughout this section we will assume that the number of characters is C. Huffman's algorithm can be described as follows: We maintain a forest of trees. The weight of a tree is equal to the sum of the frequencies of its leaves. C - 1 times, select the two trees, T 1 and T 2, of smallest weight, breaking ties arbitrarily, and form a new tree with subtrees T l and T 2. At the beginning of the algorithm, there are C single-node trees-one for each character. At the end of the algorithm there is one tree, and this is the optimal Huffman coding tree. 
+
+
+10.2. Divide and Conquer
+Another common technique used to design algorithms is divide and conquer. Divide and conquer algorithms consist of two parts: 
+
+Divide: Smaller problems are solved recursively (except, of course, base cases). 
+
+Conquer: The solution to the original problem is then formed from the solutions to the subproblems. 
+
+Traditionally, routines in which the text contains at least two recursive calls are called divide and conquer algorithms, while routines whose text contains only one recursive call are not. We generally insist that the subproblems be disjoint (that is, essentially nonoverlapping). Let us review some of the recursive algorithms that have been covered in this text. 
+
+We have already seen several divide and conquer algorithms. In Section 2.4.3, we saw an O (n log n) solution to the maximum subsequence sum problem. In Chapter 4, we saw linear-time tree traversal strategies. In Chapter 7, we saw the classic examples of divide and conquer, namely mergesort and quicksort, which have O (nlog n) worst-case and average-case bounds, respectively. 
+
+10.2.1. Running Time of Divide and Conquer Algorithms
+All the efficient divide and conquer algorithms we will see divide the problems into subproblems, each of which is some fraction of the original problem, and then perform some additional work to compute the final answer. As an example, we have seen that mergesort operates on two problems, each of which is half the size of the original, and then uses O(n) additional work. This yields the running time
+equation (with appropriate initial conditions)
+
+
+10.3.4. All-Pairs Shortest Path
+
+Our third and final dynamic programming application is an algorithm to compute shortest weighted paths between every pair of points in a directed graph G = (V, E). In Chapter 9, we saw an algorithm for the single-source shortest-path problem, which finds the shortest path from some arbitrary vertex s to all others. That algorithm (Dijkstra's) runs in O( V 2) time on dense graphs, but substantially faster on sparse graphs. We will give a short algorithm to solve the all-pairs problem for dense graphs. The running time of the algorithm is O( V 3),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

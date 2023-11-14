@@ -1,0 +1,28 @@
+Chapter 8
+Disjoint set ADT
+
+In this chapter, we describe an efficient data structure to solve the equivalence problem. The data structure is simple to implement. Each routine requires only a few lines of code, and a simple array can be used. The implementation is also extremely fast, requiring constant average time per operation. This data structure is also very interesting from a theoretical point of view, because its analysis is extremely difficult; the functional form of the worst case is unlike any we have yet seen.
+
+Show how it can be implemented with minimal coding effort
+
+Greatly increase its speed, using just two simple observations
+
+Analyze the running time of a fast implementation
+
+See a simple application
+
+8.2 Dynamic equivalence problem
+
+Given an equivalence relation ~, the natural problem is to decide, for any a and b, if a~b. If the relation is stored as a two dimensional aray of booleans, then of course this can be done in constant time. The problem is that the relation is usually not explicitly, but rather implicitly defined.
+
+8.3. Basic Data Structure
+Recall that the problem does not require that a find operation return any specific name, just that finds on two elements return the same answer if and only if they are in the same set. One idea might be to use a tree to represent each set, since each element in a tree has the same root. Thus, the root can be used to name the set. We will represent each set by a tree. (Recall that a collection of trees is known as a forest.) Initially, each set contains one element. The trees we will use are not necessarily binary trees, but their representation is easy, because the only information we will need is a parent pointer. The name of a set is given by the node at the root. Since only the name of the parent is
+required, we can assume that this tree is stored implicitly in an array: each entry p[i] in the array represents the parent of element i. If i is a root, then
+
+p[i] = 0. In the forest in Figure 8.1, p[i] = 0 for 1 i 8. As with heaps, we will draw the trees explicitly, with the understanding that an array is being used. Figure 8.1 shows the explicit representation. We will draw the root's parent pointer vertically for convenience. 
+
+8.4. Smart Union Algorithms
+The unions above were performed rather arbitrarily, by making the second tree a subtree of the first. A simple improvement is always to make the smaller tree a subtree of the larger, breaking ties by any method; we call this approach unionby-size. The three unions in the preceding example were all ties, and so we can consider that they were performed by size. If the next operation were union (4,5), then the forest in Figure 8.10 would form. Had the size heuristic not been used, a deeper forest would have been formed
+
+8.5. Path Compression
+The union/find algorithm, as described so far, is quite acceptable for most cases. It is very simple and linear on average for a sequence of m instructions (under all models). However, the worst case of O(m log n ) can occur fairly easily and naturally. 

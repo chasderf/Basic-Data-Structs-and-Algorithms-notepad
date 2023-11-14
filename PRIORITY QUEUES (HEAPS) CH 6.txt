@@ -1,0 +1,69 @@
+PRIORITY QUEUES (HEAPS)
+
+Generally a process is only allowed to run for a fixed period of time. One algorithm uses a queue. Jobs are initially placed at the end of the queue. The scheduler will repeatedly take the first job on the queue, run it until either it finishes or its time limit is up, and place it at the end of the queue if it does not finish. This strategy is generally not appropriate, because very short jobs will seem to take a long time because of the wait involved to run. Generally, it is important that short jobs finish as fast as possible, so these jobs should have preference over jobs that have already been running. Furthermore, some jobs that are not short are still very important and should also have preference.
+
+This particular application seems to require a special kind of queue, known as a priority queue. 
+
+- Efficient implementatoin of the priority queue ADT
+
+-Uses of priority queues
+
+-Advanced implementations of priority queues
+
+Guess what the data structures we will see are among the most elegant in computer science.
+
+Guess what a priority queue is a data structure that allows at least the following two operations: insert, which does the obvious thing, and delete_min, which finds, returns and removes the minimum element in the heap. The insert operation is the equivalent of enqueue, and delete_min is the priority queue equivalent of the queue's dequeue operation. The delete_min function also alters its input. 
+
+Priority queues have many applications besides operating systems. In Chapter 7, we will see how priority queues are used for external sorting. Priority queues are also important in the implementation of greedy algorithms, which operate by repeatedly finding a minimum; we will see specific examples in Chapters 9 and 10. 
+
+To implement a priority queue, we could use a simple linked list, performing insertions at the front in O(1) and traversing the list, which requires O(n) time, to delete a minimum.m
+
+Another way of implementing priority queue is to use a binary search tree. This gives an O(log n) average running time for both operations.
+
+Using a search tree could be overkill because it supports a host of operations that are not required. The basic data structure we will use will not require pointers and will support both operations in O(log n) worst case time.
+
+BINARY HEAP
+
+
+The implementation we will use is known as a binary heap. Its use is so common for priority queue implementations that when the word heap is used without a qualifier, it is generally assumed to be referring to this implementation of the data structure. 
+
+A heap is a binary tree that is completely filled, with the possible exception of the bottom level, which is filled from left to right. Such a tree is known as a complete binary tree.
+
+
+The properation that allows operations to be performed quickly is called the heap order property. If we want to find the minimum quickly, it makes sense that the smallest element should be at the root. If we consider that any subtree should also be a heap, then any node should be smaller than all of its descendents.
+
+
+In a heap, for every node X, the key in the parent of X is smaller than (or equal to) the key in X, with the obvious exception of the root (which has no parent).
+
+
+Similarly, we can declare a (max) heap, which enables us to efficiently find and remove the maximum element, by changing the heap order property. Thus a priority queue can be used to find either a minimum or a maximum, but this needs to be decided ahead of time.
+
+
+
+By the heap order property, the minimum element can always be found at the root. Thus, we get the extra operation, find_min, in constant time. 
+
+
+
+D HEAPS
+
+Notice that a d-heap is much more shallow than a binary heap, improving the running time of inserts to O(logd n).
+
+
+BINOMIAL QUEUES
+
+Although both leftist and skew heaps support merging, insertion, and delete_min all effectively in O(log n) time per operation, there is room for improvement because we know that binary heaps
+support insertion in constant average time per operation. Binomial queues support all three operations in O(log n) worst-case time per operation, but insertions take constant time on average. 
+
+
+
+BINOMIAL QUEUE STRUCTURE
+
+Binomial queues differ from all the priority queue implementations that we have seen in that a binomial queue is not a heap-ordered tree but rather a collection of heap-ordered trees, known as a forest.
+
+
+
+
+
+
+
+

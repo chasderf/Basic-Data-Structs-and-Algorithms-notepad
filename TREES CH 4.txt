@@ -1,0 +1,23 @@
+If theres a large amount of input, the linear access time of linked lists is prohibitive. A binary search tree is crucial for our understanding. Trees in general are very useful abstractions in computer science.
+
+-See how trees are used to implement the file system of several popular operating systems
+
+-See how trees can be used to evaluate arithmetic expressions
+
+-Show how to use trees to support searching operations in O(log n) average
+time, and how to refine these ideas to obtain O(log n) worst-case bounds. We will also see how to implement these operations when the data is stored on a disk. 
+
+
+So basically a tree can be defined several ways. One way to create a tree is recursively. Afterall a tree is a collection of nodes. The collection can be empty, which is sometimes denoted as A. Otherwise, a tree consists of a distinguished node r, called the root, and zero or more (sub) trees T1, T2,...Tk, each of whose roots are connected by a directed edge to r.
+
+Essentially we can have various trees with several different nodes {example of several nodes} while a binary tree is a tree in which no node can have more than two children
+
+An AVL (Adelson-Velskii and Landis) tree is a binary search tree with a balence condition. The balence condition must be easy to maintain and it ensures that the depth of the tree is O(log n). The easiest idea is to require that the left and right subtrees have the same height.
+
+Splay Trees
+
+So heres a relativelu simple data structure known as a splay tree, that guarantees that any m consecutive tree operations take at most O(m log n) time. Although this guarantee doesnt include the possibility that any single operation might take O(n) time, and thus the bound is not as strong as an O(log n) worst case bound per operation, the net effect is the same: There are no bad input sequences.
+
+Splaying
+The splaying strategy is similar to the rotation idea above, except that we are a little more selective about how rotations are performed. We will still rotate bottom up along the access path. Let x be a (nonroot) node on the access path at which we are rotating. If the parent of x is the root of the tree, we merely rotate x and the root. This is the last rotation along the access path. Otherwise, x has both a parent (p) and a grandparent (g), and there are two cases, plus symmetries, to consider. The first case is the zig-zag case.
+

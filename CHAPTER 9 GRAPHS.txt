@@ -1,0 +1,129 @@
+Chapter 9 
+Graph Algorithms
+
+In this chapter we discuss several common problems in graph theory. Not only are these algorithms useful in practice, they are interesting because in many real-life applications they are too slow unless careful attention is paid to the choice of data structures.
+
+= Show several real life problems, which can be converted to problems on graphs
+
+-Give algorithms to solve several common graph problems
+
+-Show how the proper choice of data structures can drastically reduce the running time of these algorithms
+
+-See an important technique known as depth first search and show how it can be used to solve several seemingly nontrivial problems in linear time
+
+
+9.1 Definitions
+
+A graph G = (V, E) consists of a set of vertices, V, and a set of edges, E. Each edge is a pair (v,w), where v, w, V. Edges are sometimes referred to as arcs. If the pair is ordered, then the graph is directed. Directed graphs are sometimes referred to as digraphs. Vertex w is adjacent to v if and only if (v,w) E. In an undirected graph with edge (v,w), and hence (w, v), w is adjacent to v and v is adjacent to w. Sometimes an edge has a third component; known as either a weight or a cost.
+
+A path in a graph is a sequence of vertices W1, w2, w3,...wn such that (wp wi+i) E for 1 i < n. The length of such a path is the number of edges on the path, which is equal jto n -1. We allow a path from a vertex to itself; if this path has no edges, then the path length is 0. This is a convenient way to define an otherwise special case. If the graph contains an edge (v,v) from a vertex to itself, then the path v, v is sometimes referred to as a loop. The graphs we will consider will generally be loopless. A simple path is a path such that all vertices are distinct, except that the first and last could be the same. 
+
+A cycle in a directed graph is a path of length at least 1 such that w1 = wn; this cycle is simple if the path is simple. For undirected graphs, we require that the edges be distinct. The logic of these requirements is that the path u, v, u in an undirected graph should not be considered a cycle, because (u, v) and (v, u) are the same edge. In a directed graph, these are different edges, so it makes sense to call this a cycle. A directed graph is acyclic if it has no cycles. A directed acyclic graph is sometimes referred to by its abbreviation, DAG. 
+
+An undirected graph is connected if there is a path from every vertex to every other vertex. A directed graph with this property is called strongly connected. If a directed graph is not strongly connected, but the underlying graph (without direction to the arcs) is connected, then the graph is said to be weakly connected. A complete graph is a graph in which there is an edge between every pair of vertices. 
+
+9.2. Topological Sort
+A topological sort is an ordering of vertices in a directed acyclic graph, such that if there is a path from v i to v j, then v j appears after v i in the ordering.
+
+It is clear that a topological ordering is not possible if the graph has a cycle, since for two vertices v and w on the cycle, v precedes w and w precedes v. 
+
+
+To formalize this, we define the indegree of a vertex v as the number of edges (u,v). We compute the indegrees of all vertices in the graph. Assuming that the indegree array is initialized and that the graph is read into an adjacency list, we can then apply the algorithm in Figure 9.5 to generate a topological ordering. 
+
+
+9.3. Shortest-Path Algorithms
+
+In this section we examine various shortest-path problems. The input is a weighted graph: associated with each edge (v i, v j) is a cost c i,j to traverse the arc. The cost of a path v 1v 2 ... v n is This is referred to as the weighted path length. The unweighted path length is merely the number of edges on the path, namely, n - 1. 
+
+
+9.3.2. Dijkstra's Algorithm
+
+If the graph is weighted, the problem (apparently) becomes harder, but we can still use the ideas from the unweighted case. We keep all of the same information as before. Thus, each vertex is marked as either known or unknown. A tentative distance d v is kept for each vertex, as before. This distance turns out to be the shortest path length from s to v using only known vertices as intermediates. As before, we record p v, which is the last vertex to cause a change to d v. 
+
+
+
+9.3.4. Acyclic Graphs
+
+If the graph is known to be acyclic, we can improve Dijkstra's algorithm by changing the order in which vertices are declared known, otherwise known as the vertex selection rule. The new rule is to select vertices in topological order. The algorithm can be done in one pass, since the
+selections and updates can take place as the topological sort is being performed. 
+
+This selection rule works because when a vertex v is selected, its distance, d v, can no longer be lowered, since by the topological ordering rule it has no incoming edges emanating from unknown
+nodes. 
+
+
+There is no need for a priority queue with this selection rule; the running time is O(|E| + |V|), since the selection takes constant time. 
+
+An acyclic graph could model some downhill skiing problem -- we want to get from point a to b, but can only go downhill, so clearly there are no cycles. Another possible application might be the modeling of (nonreversible) chemical reactions. We could have each vertex represent a particular state of an experiment. Edges would represent a transition from one state to another, and the edge weights might represent the energy released. If only transitions from a higher energy state to a lower are allowed, the graph is acyclic. 
+
+A more important use of acyclic graphs is critical path analysis. The graph in Figure 9.34 will serve as our example. Each node represents an activity that must be performed, along with the time it takes to complete the activity. This graph is thus known as an activity-node graph. The edges represent precedence relationships: An edge (v, w) means that activity v must be completed before activity w may begin. Of course, this implies that the graph must be acyclic. We assume
+that any activities that do not depend (either directly or indirectly) on each other can be performed in parallel by different servers. 
+
+9.5.1. Prim's Algorithm
+
+One way to compute a minimum spanning tree is to grow the tree in successive stages. In each stage, one node is picked as the root, and we add an edge, and thus an associated vertex, to the tree.
+
+At any point in the algorithm, we can see that we have a set of vertices that have already been included in the tree; the rest of the vertices have not. The algorithm then finds, at each stage, a new vertex to add to the tree by choosing the edge (u, v) such that the cost of (u, v) is the smallest among all edges where u is in the tree and v is not.
+
+Figure 9.49 shows how this algorithm would build the minimum spanning tree, starting from v 1. Initially, v 1 is in the tree
+as a root with no edges. Each step adds one edge and one vertex to the tree. We can see that Prim's algorithm is essentially identical to Dijkstra's algorithm for shortest paths. As before, for each vertex we keep values d v and p v and an indication of whether it is
+known or unknown. d v is the weight of the shortest arc connecting v to a known vertex, and p v, as before, is the last vertex to cause a change in d v. The rest of the algorithm is exactly the same, with the exception that since the definition of d v is different, so is the update rule. For this problem, the update rule is even simpler than before: After a vertex v is selected, for each unknown w adjacent to v, d v = min(dw, cw, v).
+
+ 
+9.5.2. Kruskal's Algorithm
+A second greedy strategy is continually to select the edges in order of smallest weight and accept an edge if it does not cause a cycle. 
+
+
+9.6. Applications of Depth-First Search
+
+Depth-first search is a generalization of preorder traversal. Starting at some vertex, v, we process v and then recursively traverse all vertices adjacent to v. If this process is performed on a tree, then all tree vertices are systematically visited in a total of O(|E|) time, since |E| = (|V|). If we perform this process on an arbitrary graph, we need to be careful to avoid cycles. To do this, when we visit a vertex v, we mark it visited, since now we have been there,
+and recursively call depth-first search on all adjacent vertices that are not already marked. We implicitly assume that for undirected graphs every edge (v, w) appears twice in the adjacency lists: once as (v, w) and once as (w, v). The procedure in Figure 9.59 performs a depth-first
+search (and does absolutely nothing else) and is a template for the general style. 
+
+9.6.1 Undirected Graphs
+
+An undirected graph is connected if and only if a depth-first search starting from any node visits every node. Because this test is so easy to apply, we will assume that the graphs we deal with are connected. If they are not, then we can find all the connected components and apply our algorithm on each of these in turn. 
+
+
+9.6.2. Biconnectivity
+
+A connected undirected graph is biconnected if there are no vertices whose removal disconnects the rest of the graph. The graph in the example above is biconnected. If the nodes are computers and the edges are links, then if any computer goes down, network mail is unaffected, except, of course, at the down computer. Similarly, if a mass transit system is biconnected, users always have an alternate route should some terminal be disrupted. 
+
+9.6.3. Euler Circuits
+
+Consider the three figures in Figure 9.68. A popular puzzle is to reconstruct these figures using a pen, drawing each line exactly once. The pen may not be lifted from the paper while the drawing
+is being performed. As an extra challenge, make the pen finish at the same point at which it started. This puzzle has a surprisingly simple solution. Stop reading if you would like to try to
+solve it. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
